@@ -20,4 +20,9 @@ class Municipio extends BaseModel
     {
         return $this->belongsTo(Uf::class);
     }
+    
+    public function bairros()
+    {
+        return $this->hasMany(Bairro::class);
+    }
 }
