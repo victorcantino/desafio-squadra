@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_uf', function (Blueprint $table) {
-            $table->bigIncrements('codigo_uf');
-            $table->string('sigla', 3)->unique();
-            $table->string('nome', 60)->unique();
-            $table->unsignedSmallInteger('status');
+        Schema::create('tb_municipio', function (Blueprint $table) {
+            $table->bigIncrements('codigo_municipio');
+            $table->foreignId('codigo_uf')->constrained('tb_uf', 'codigo_uf')->onDelete('cascade');
+            $table->string('nome', 256);
+            $table->tinyInteger('status', false, true)->default(1);
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_uf');
+        Schema::dropIfExists('tb_municipio');
     }
 };

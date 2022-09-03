@@ -46,17 +46,6 @@ class UfController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Uf  $uf
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Uf $uf)
-    {
-        return $uf;
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -78,6 +67,6 @@ class UfController extends Controller
      */
     public function destroy(int $uf)
     {
-        return Uf::destroy($uf);
+        //
     }
 }

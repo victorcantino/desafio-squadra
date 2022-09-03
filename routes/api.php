@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\UfController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/uf', UfController::class);
+Route::apiResource('/municipio', MunicipioController::class);
