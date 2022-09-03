@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BairroController;
 use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\UfController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('/uf', UfController::class);
 Route::apiResource('/municipio', MunicipioController::class);
 Route::apiResource('/bairro', BairroController::class);
+Route::apiResource('/pessoa', PessoaController::class);
