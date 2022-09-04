@@ -10,13 +10,30 @@ class MunicipioController extends Controller
 {
     /**
      * Retorna a lista de municípios.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        return Municipio::get();
+        $query = Municipio::query();
+        if ($request->has('codigoUf'))
+            $query->where('codigoUf', $request->codigoUf);
+        if ($request->has('codigoMunicipio'))
+            $query->where('codigoMunicipio', $request->codigoMunicipio);
+        if ($request->has('nome'))
+            $query->where('nome', $request->nome);
+        if ($request->has('status'))
+            $query->where('status', $request->status);
+
+        try {
+            return $query->get();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'mensagem' => "Não foi possível pesquisar o Município.",
+                'status' => "503",
+            ], 503);
+        }
     }
 
     /**

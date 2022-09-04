@@ -15,23 +15,22 @@ class UfController extends Controller
      */
     public function index(Request $request)
     {
-        $where = [];
-        if ($request->has('codigoUf')) {
-            array_push($where, [
-                'codigoUf', '=', $request->input('codigoUf'),
-            ]);
+        $query = Uf::query();
+        if ($request->has('codigoUf'))
+            $query->where('codigoUf', $request->codigoUf);
+        if ($request->has('nome'))
+            $query->where('nome', $request->nome);
+        if ($request->has('sigla'))
+            $query->where('sigla', $request->sigla);
+
+        try {
+            return $query->get();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Não foi possível pesquisar a UF.',
+                'status' => 503,
+            ], 503);
         }
-        if ($request->has('nome')) {
-            array_push($where, [
-                'nome', '=', $request->input('nome'),
-            ]);
-        }
-        if ($request->has('sigla')) {
-            array_push($where, [
-                'sigla', '=', $request->input('sigla'),
-            ]);
-        }
-        return Uf::where($where)->get();
     }
 
     /**
@@ -42,6 +41,7 @@ class UfController extends Controller
      */
     public function store(UfRequest $request)
     {
+
         return response()->json(Uf::create($request->all()));
     }
 

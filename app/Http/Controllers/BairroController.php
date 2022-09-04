@@ -15,23 +15,24 @@ class BairroController extends Controller
      */
     public function index(Request $request)
     {
-        $where = [];
-        if ($request->input('codigoBairro')) {
-            array_push($where, [
-                'codigoBairro', '=', $request->input('codigoBairro'),
-            ]);
+        $query = Bairro::query();
+        if ($request->has('codigoMunicipio'))
+            $query->where('codigoMunicipio', $request->codigoMunicipio);
+        if ($request->has('codigoBairro'))
+            $query->where('codigoBairro', $request->codigoBairro);
+        if ($request->has('nome'))
+            $query->where('nome', $request->nome);
+        if ($request->has('status'))
+            $query->where('status', $request->status);
+
+        try {
+            return $query->get();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'mensagem' => "Não foi possível pesquisar o Município.",
+                'status' => "503",
+            ], 503);
         }
-        if ($request->input('codigoMunicipio')) {
-            array_push($where, [
-                'codigoMunicipio', '=', $request->input('codigoMunicipio'),
-            ]);
-        }
-        if ($request->input('nome')) {
-            array_push($where, [
-                'nome', '=', $request->input('nome'),
-            ]);
-        }
-        return Bairro::where($where)->get();
     }
 
     /**

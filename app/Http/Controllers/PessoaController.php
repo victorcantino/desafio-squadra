@@ -18,9 +18,24 @@ class PessoaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Pessoa::get();
+        $query = Pessoa::query();
+        if ($request->has('codigoPessoa'))
+            $query->where('codigoPessoa', $request->codigoPessoa);
+        if ($request->has('login'))
+            $query->where('login', $request->login);
+        if ($request->has('status'))
+            $query->where('status', $request->status);
+
+        try {
+            return $query->get();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'mensagem' => 'Não foi possível pesquisar a Pessoa.',
+                'status' => 503
+            ], 503);
+        }
     }
 
     /**
