@@ -27,7 +27,7 @@ class UfController extends Controller
             return $query->get();
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Não foi possível pesquisar a UF.',
+                'mensagem' => 'Não foi possível pesquisar a UF.',
                 'status' => 503,
             ], 503);
         }

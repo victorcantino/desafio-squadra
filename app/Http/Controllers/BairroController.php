@@ -29,7 +29,7 @@ class BairroController extends Controller
             return $query->get();
         } catch (\Throwable $th) {
             return response()->json([
-                'mensagem' => "Não foi possível pesquisar o Município.",
+                'mensagem' => "Não foi possível pesquisar o Bairro.",
                 'status' => "503",
             ], 503);
         }
