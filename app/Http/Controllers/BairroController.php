@@ -16,14 +16,14 @@ class BairroController extends Controller
     public function index(Request $request)
     {
         $where = [];
-        if ($request->input('codigo_bairro')) {
+        if ($request->input('codigoBairro')) {
             array_push($where, [
-                'codigo_bairro', '=', $request->input('codigo_bairro'),
+                'codigoBairro', '=', $request->input('codigoBairro'),
             ]);
         }
-        if ($request->input('codigo_municipio')) {
+        if ($request->input('codigoMunicipio')) {
             array_push($where, [
-                'codigo_municipio', '=', $request->input('codigo_municipio'),
+                'codigoMunicipio', '=', $request->input('codigoMunicipio'),
             ]);
         }
         if ($request->input('nome')) {

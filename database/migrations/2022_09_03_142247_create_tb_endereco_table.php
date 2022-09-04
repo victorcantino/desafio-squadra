@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tb_endereco', function (Blueprint $table) {
-            $table->bigIncrements('codigo_endereco');
-            $table->foreignId('codigo_pessoa')->constrained('tb_pessoa', 'codigo_pessoa');
-            $table->foreignId('codigo_bairro')->constrained('tb_bairro', 'codigo_bairro');
-            $table->string('nome_rua', 256)->nullable(false);
+            $table->bigIncrements('codigoEndereco');
+            $table->foreignId('codigoPessoa')->constrained('tb_pessoa', 'codigoPessoa');
+            $table->foreignId('codigoBairro')->constrained('tb_bairro', 'codigoBairro');
+            $table->string('nomeRua', 256)->nullable(false);
             $table->string('numero', 10)->nullable(false);
             $table->string('complemento', 20);
             $table->string('cep', 10)->nullable(false);

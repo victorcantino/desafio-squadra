@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Bairro extends BaseModel
 {
     use HasFactory;
-    
+
     protected $table = 'tb_bairro';
 
-    protected $primaryKey = 'codigo_bairro';
+    protected $primaryKey = 'codigoBairro';
 
     public $timestamps = false;
 
-    protected $fillable = ['codigo_municipio', 'nome', 'status'];
-    
+    protected $fillable = ['codigoMunicipio', 'nome', 'status'];
+
     public function municipio()
     {
         return $this->belongsTo(Municipio::class);

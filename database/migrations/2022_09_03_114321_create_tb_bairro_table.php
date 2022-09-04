@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tb_bairro', function (Blueprint $table) {
-            $table->bigIncrements('codigo_bairro');
-            $table->foreignId('codigo_municipio')->constrained('tb_municipio', 'codigo_municipio');
+            $table->bigIncrements('codigoBairro');
+            $table->foreignId('codigoMunicipio')->constrained('tb_municipio', 'codigoMunicipio');
             $table->string('nome', 256);
             $table->tinyInteger('status')->default(1);
         });

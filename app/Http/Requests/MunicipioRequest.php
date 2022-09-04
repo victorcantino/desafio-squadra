@@ -27,10 +27,10 @@ class MunicipioRequest extends FormRequest
         return [
             'nome' => [
                 'required',
-                Rule::unique('tb_municipio')->where(fn ($query) => $query->where('codigo_uf', $this->codigo_uf)),
+                Rule::unique('tb_municipio')->where(fn ($query) => $query->where('codigoUf', $this->codigoUf)),
                 'max:256',
             ],
-            'codigo_uf' => [
+            'codigoUf' => [
                 'required',
             ]
         ];
@@ -42,7 +42,7 @@ class MunicipioRequest extends FormRequest
             'nome.required' => 'O nome do Município é obrigatório',
             'nome.unique' => 'O nome do Município já existe nesta UF',
             'nome.max' => 'O nome do Município só pode ter :max caracteres',
-            'codigo_uf.required' => 'É necessário informar uma UF',
+            'codigoUf.required' => 'É necessário informar uma UF',
         ];
-    }    
+    }
 }

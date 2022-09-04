@@ -16,17 +16,17 @@ class UfController extends Controller
     public function index(Request $request)
     {
         $where = [];
-        if ($request->input('codigo_uf')) {
+        if ($request->has('codigoUf')) {
             array_push($where, [
-                'codigo_uf', '=', $request->input('codigo_uf'),
+                'codigoUf', '=', $request->input('codigoUf'),
             ]);
         }
-        if ($request->input('nome')) {
+        if ($request->has('nome')) {
             array_push($where, [
                 'nome', '=', $request->input('nome'),
             ]);
         }
-        if ($request->input('sigla')) {
+        if ($request->has('sigla')) {
             array_push($where, [
                 'sigla', '=', $request->input('sigla'),
             ]);

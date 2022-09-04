@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tb_pessoa', function (Blueprint $table) {
-            $table->bigIncrements('codigo_pessoa');
+            $table->bigIncrements('codigoPessoa');
             $table->string('nome', 256)->nullable(false);
             $table->string('sobrenome', 256)->nullable(false);
             $table->unsignedTinyInteger('idade')->nullable(false);

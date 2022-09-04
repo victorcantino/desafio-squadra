@@ -25,13 +25,13 @@ class BairroRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo_municipio' => [
+            'codigoMunicipio' => [
                 'required',
             ],
             'nome' => [
                 'required',
                 'max:256',
-                Rule::unique('tb_bairro')->where(fn ($query) => $query->where('codigo_municipio', $this->codigo_municipio)),
+                Rule::unique('tb_bairro')->where(fn ($query) => $query->where('codigoMunicipio', $this->codigoMunicipio)),
             ],
         ];
     }
@@ -42,7 +42,7 @@ class BairroRequest extends FormRequest
             'nome.required' => 'O nome do Bairro é obrigatório',
             'nome.unique' => 'O nome do Bairro já existe neste Município',
             'nome.max' => 'O nome do Bairro só pode ter :max caracteres',
-            'codigo_municipio.required' => 'É necessário informar um Município',
+            'codigoMunicipio.required' => 'É necessário informar um Município',
         ];
-    }    
+    }
 }

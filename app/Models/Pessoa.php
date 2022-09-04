@@ -11,8 +11,8 @@ class Pessoa extends BaseModel
 
     protected $table = 'tb_pessoa';
 
-    protected $primaryKey = 'codigo_pessoa';
-    
+    protected $primaryKey = 'codigoPessoa';
+
     public $timestamps = false;
 
     protected $fillable = ['nome', 'sobrenome', 'idade', 'login', 'senha', 'status'];

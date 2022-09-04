@@ -11,7 +11,7 @@ class Endereco extends Model
 
     protected $table = 'tb_endereco';
 
-    protected $primaryKey = 'codigo_endereco';
+    protected $primaryKey = 'codigoEndereco';
 
     public $timestamps = false;
 

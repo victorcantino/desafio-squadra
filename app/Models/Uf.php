@@ -10,7 +10,7 @@ class Uf extends BaseModel
 
     protected $table = 'tb_uf';
 
-    protected $primaryKey = 'codigo_uf';
+    protected $primaryKey = 'codigoUf';
 
     public $timestamps = false;
 
