@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('tb_uf', function (Blueprint $table) {
             $table->bigIncrements('codigoUf');
-            $table->string('sigla', 3)->unique();
-            $table->string('nome', 60)->unique();
+            $table->string('sigla', 3)->unique()->nullable(false);
+            $table->string('nome', 60)->unique()->nullable(false);
             $table->tinyInteger('status', false, true)->default(1);
         });
     }

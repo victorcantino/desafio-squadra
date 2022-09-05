@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tb_municipio', function (Blueprint $table) {
             $table->bigIncrements('codigoMunicipio');
             $table->foreignId('codigoUf')->constrained('tb_uf', 'codigoUf')->onDelete('cascade');
-            $table->string('nome', 256);
+            $table->string('nome', 256)->nullable(false);
             $table->tinyInteger('status', false, true)->default(1);
         });
     }
