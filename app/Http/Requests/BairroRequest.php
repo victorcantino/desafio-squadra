@@ -27,6 +27,7 @@ class BairroRequest extends FormRequest
         return [
             'codigoMunicipio' => [
                 'required',
+                Rule::exists('tb_municipio')->where('codigoMunicipio', $this->codigoMunicipio),
             ],
             'nome' => [
                 'required',
@@ -43,6 +44,7 @@ class BairroRequest extends FormRequest
             'nome.unique' => 'O nome do Bairro já existe neste Município',
             'nome.max' => 'O nome do Bairro só pode ter :max caracteres',
             'codigoMunicipio.required' => 'É necessário informar um Município',
+            'codigoMunicipio.exists' => 'O Município informado é inválido',
         ];
     }
 }

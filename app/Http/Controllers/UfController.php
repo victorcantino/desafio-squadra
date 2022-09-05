@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Erros;
 use App\Http\Requests\UfRequest;
 use App\Models\Uf;
 use Illuminate\Http\Request;
@@ -22,15 +23,7 @@ class UfController extends Controller
             $query->where('nome', $request->nome);
         if ($request->has('sigla'))
             $query->where('sigla', $request->sigla);
-
-        try {
-            return $query->get();
-        } catch (\Throwable $th) {
-            return response()->json([
-                'mensagem' => 'Não foi possível pesquisar a UF.',
-                'status' => 503,
-            ], 503);
-        }
+        return $query->get();
     }
 
     /**
@@ -41,8 +34,12 @@ class UfController extends Controller
      */
     public function store(UfRequest $request)
     {
-
-        return response()->json(Uf::create($request->all()));
+        if (Uf::create($request->all()))
+            return response()->json([
+                'mensagem' => 'UF criada com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao criar a UF', 503);
     }
 
     /**
@@ -54,9 +51,12 @@ class UfController extends Controller
      */
     public function update(UfRequest $request, Uf $uf)
     {
-        $uf->fill($request->all());
-        $uf->save();
-        return $uf;
+        if ($uf->fill($request->all())->save())
+            return response()->json([
+                'mensagem' => 'UF atualizada com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao atualizar a UF', 503);
     }
 
     /**
@@ -67,6 +67,11 @@ class UfController extends Controller
      */
     public function destroy(int $uf)
     {
-        //
+        if (Uf::destroy($uf))
+            return response()->json([
+                'mensagem' => 'UF excluída com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao excluir a UF', 503);
     }
 }

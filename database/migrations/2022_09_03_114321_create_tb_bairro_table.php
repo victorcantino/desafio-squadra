@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tb_bairro', function (Blueprint $table) {
             $table->bigIncrements('codigoBairro');
-            $table->foreignId('codigoMunicipio')->constrained('tb_municipio', 'codigoMunicipio');
+            $table->foreignId('codigoMunicipio')->constrained('tb_municipio', 'codigoMunicipio')->onDelete('cascade');
             $table->string('nome', 256);
             $table->tinyInteger('status')->default(1);
         });

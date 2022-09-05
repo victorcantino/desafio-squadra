@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Erros;
 use App\Http\Requests\BairroRequest;
 use App\Models\Bairro;
 use Illuminate\Http\Request;
@@ -24,15 +25,7 @@ class BairroController extends Controller
             $query->where('nome', $request->nome);
         if ($request->has('status'))
             $query->where('status', $request->status);
-
-        try {
-            return $query->get();
-        } catch (\Throwable $th) {
-            return response()->json([
-                'mensagem' => "Não foi possível pesquisar o Bairro.",
-                'status' => "503",
-            ], 503);
-        }
+        return $query->get();
     }
 
     /**
@@ -43,7 +36,12 @@ class BairroController extends Controller
      */
     public function store(BairroRequest $request)
     {
-        return response()->json(Bairro::create($request->all()));
+        if (Bairro::create($request->all()))
+            return response()->json([
+                'mensagem' => 'Bairro criado com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao criar o Bairro', 503);
     }
 
     /**
@@ -55,18 +53,27 @@ class BairroController extends Controller
      */
     public function update(Request $request, Bairro $bairro)
     {
-        $bairro->fill($request->all());
-        return response()->json($bairro->save());
+        if ($bairro->fill($request->all())->save())
+            return response()->json([
+                'mensagem' => 'Bairro criado com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao criar o Bairro', 503);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Bairro  $bairro
+     * @param  int  $bairro
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bairro $bairro)
+    public function destroy(int $bairro)
     {
-        //
+        if (Bairro::destroy($bairro))
+            return response()->json([
+                'mensagem' => 'Bairro removido com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao remover o Bairro', 503);
     }
 }

@@ -32,6 +32,7 @@ class MunicipioRequest extends FormRequest
             ],
             'codigoUf' => [
                 'required',
+                Rule::exists('tb_uf')->where('codigoUf', $this->codigoUf),
             ]
         ];
     }
@@ -43,6 +44,7 @@ class MunicipioRequest extends FormRequest
             'nome.unique' => 'O nome do Município já existe nesta UF',
             'nome.max' => 'O nome do Município só pode ter :max caracteres',
             'codigoUf.required' => 'É necessário informar uma UF',
+            'codigoUf.exists' => 'A UF informada não existe',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Erros;
 use App\Http\Requests\MunicipioRequest;
 use App\Models\Municipio;
 use Illuminate\Http\Request;
@@ -25,15 +26,7 @@ class MunicipioController extends Controller
             $query->where('nome', $request->nome);
         if ($request->has('status'))
             $query->where('status', $request->status);
-
-        try {
-            return $query->get();
-        } catch (\Throwable $th) {
-            return response()->json([
-                'mensagem' => "Não foi possível pesquisar o Município.",
-                'status' => "503",
-            ], 503);
-        }
+        return $query->get();
     }
 
     /**
@@ -44,9 +37,12 @@ class MunicipioController extends Controller
      */
     public function store(MunicipioRequest $request)
     {
-        $municipio = new Municipio();
-        $municipio->fill($request->all());
-        return response()->json($municipio->save());
+        if (Municipio::create($request->all()))
+            return response()->json([
+                'mensagem' => 'Município criado com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao criar o Município', 503);
     }
 
     /**
@@ -58,19 +54,27 @@ class MunicipioController extends Controller
      */
     public function update(MunicipioRequest $request, Municipio $municipio)
     {
-        // return $request->all();
-        $municipio->fill($request->all());
-        return response()->json($municipio->save());
+        if ($municipio->fill($request->all())->save())
+            return response()->json([
+                'mensagem' => 'Município atualizado com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao atualizar o Município', 503);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Municipio  $municipio
+     * @param  int  $municipio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Municipio $municipio)
+    public function destroy(int $municipio)
     {
-        //
+        if (Municipio::destroy($municipio))
+            return response()->json([
+                'mensagem' => 'Município removido com sucesso',
+                'status' => 200,
+            ], 200);
+        throw new Erros('Erro ao remover o Município', 503);
     }
 }

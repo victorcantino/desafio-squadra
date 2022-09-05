@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('tb_endereco', function (Blueprint $table) {
             $table->bigIncrements('codigoEndereco');
-            $table->foreignId('codigoPessoa')->constrained('tb_pessoa', 'codigoPessoa');
-            $table->foreignId('codigoBairro')->constrained('tb_bairro', 'codigoBairro');
+            $table->foreignId('codigoPessoa')->constrained('tb_pessoa', 'codigoPessoa')->onDelete('cascade');
+            $table->foreignId('codigoBairro')->constrained('tb_bairro', 'codigoBairro')->onDelete('no action');
             $table->string('nomeRua', 256)->nullable(false);
             $table->string('numero', 10)->nullable(false);
             $table->string('complemento', 20);
