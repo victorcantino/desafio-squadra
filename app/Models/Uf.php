@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Uf extends BaseModel
 {
@@ -12,11 +13,14 @@ class Uf extends BaseModel
 
     protected $primaryKey = 'codigoUf';
 
-    public $timestamps = false;
-
     protected $fillable = ['nome', 'sigla', 'status'];
 
-    public function municipios()
+    /**
+     * Retorna os municípios relacionados
+     *
+     * @return HasMany
+     */
+    public function municipios(): HasMany
     {
         return $this->hasMany(Municipio::class);
     }

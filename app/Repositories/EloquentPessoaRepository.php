@@ -7,8 +7,17 @@ use App\Models\Endereco;
 use App\Models\Pessoa;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Repositório para ser injetado
+ */
 class EloquentPessoaRepository implements PessoaRepository
 {
+    /**
+     * Adicionar uma pessoa ao sistema
+     *
+     * @param PessoaRequest $request
+     * @return Pessoa
+     */
     public function adicionar(PessoaRequest $request): Pessoa
     {
         return DB::transaction(function () use ($request) {
@@ -22,6 +31,13 @@ class EloquentPessoaRepository implements PessoaRepository
             return $pessoa;
         });
     }
+
+    /**
+     * Alterar dados da Pessoa e seus endereços
+     *
+     * @param PessoaRequest $request
+     * @return Pessoa
+     */
     public function alterar(PessoaRequest $request): Pessoa
     {
         return DB::transaction(function () use ($request) {

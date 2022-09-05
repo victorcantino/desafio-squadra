@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Municipio extends BaseModel
 {
@@ -12,16 +14,24 @@ class Municipio extends BaseModel
 
     protected $primaryKey = 'codigoMunicipio';
 
-    public $timestamps = false;
-
     protected $fillable = ['codigoUf', 'nome', 'status'];
 
-    public function uf()
+    /**
+     * Retorna a UF relacionada ao município
+     *
+     * @return BelongsTo
+     */
+    public function uf(): BelongsTo
     {
         return $this->belongsTo(Uf::class);
     }
 
-    public function bairros()
+    /**
+     * Retorna os bairros relacionados ao município
+     *
+     * @return HasMany
+     */
+    public function bairros(): HasMany
     {
         return $this->hasMany(Bairro::class);
     }
