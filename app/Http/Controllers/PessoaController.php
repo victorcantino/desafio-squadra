@@ -39,12 +39,7 @@ class PessoaController extends Controller
      */
     public function store(PessoaRequest $request)
     {
-        if (Pessoa::create($request->all()))
-            return response()->json([
-                'mensagem' => 'Pessoa criada com sucesso',
-                'status' => 200,
-            ], 200);
-        throw new Erros('Erro ao criar a Pessoa', 503);
+        return response()->json($this->repository->adicionar($request));
     }
 
     /**
@@ -56,12 +51,7 @@ class PessoaController extends Controller
      */
     public function update(PessoaRequest $request, Pessoa $pessoa)
     {
-        if ($pessoa->fill($request->all())->save())
-            return response()->json([
-                'mensagem' => 'Pessoa criado com sucesso',
-                'status' => 200,
-            ], 200);
-        throw new Erros('Erro ao criar o Pessoa', 503);
+        return response()->json($this->repository->alterar($request, $pessoa));
     }
 
     /**

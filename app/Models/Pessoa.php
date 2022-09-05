@@ -14,14 +14,4 @@ class Pessoa extends BaseModel
     protected $primaryKey = 'codigoPessoa';
 
     protected $fillable = ['nome', 'sobrenome', 'idade', 'login', 'senha', 'status'];
-
-    /**
-     * Retorna os endereços relacionados à Pessoa
-     *
-     * @return HasMany
-     */
-    public function enderecos(): HasMany
-    {
-        return $this->hasMany(Endereco::class);
-    }
 }

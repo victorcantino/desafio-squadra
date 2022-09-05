@@ -24,5 +24,5 @@ interface PessoaRepository
      * @param PessoaRequest $request
      * @return Pessoa
      */
-    public function alterar(PessoaRequest $request): Pessoa;
+    public function alterar(PessoaRequest $request, Pessoa $pessoa): Pessoa;
 }

@@ -14,25 +14,7 @@ class Endereco extends Model
 
     protected $primaryKey = 'codigoEndereco';
 
-    protected $fillable = ['nome', 'sigla', 'status'];
+    protected $fillable = ['codigoPessoa', 'codigoBairro', 'nomeRua', 'numero', 'complemento', 'cep'];
 
-    /**
-     * Retorna o bairro relacionado ao endereço
-     *
-     * @return belongsTo
-     */
-    public function bairro(): BelongsTo
-    {
-        return $this->belongsTo(Bairro::class);
-    }
-
-    /**
-     * Retorna a pessoa relacionada ao endereço
-     *
-     * @return BelongsTo
-     */
-    public function pessoa(): BelongsTo
-    {
-        return $this->belongsTo(Pessoa::class);
-    }
+    public $timestamps = false;
 }
