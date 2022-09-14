@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('codigoBairro')->constrained('tb_bairro', 'codigoBairro')->onDelete('no action');
             $table->string('nomeRua', 256)->nullable(false);
             $table->string('numero', 10)->nullable(false);
-            $table->string('complemento', 20);
+            $table->string('complemento', 20)->nullable();
             $table->string('cep', 10)->nullable(false);
         });
     }

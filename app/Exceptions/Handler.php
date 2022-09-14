@@ -2,10 +2,7 @@
 
 namespace App\Exceptions;
 
-use GuzzleHttp\Exception\ServerException;
-use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -48,18 +45,6 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
-        });
-        $this->renderable(function (NotFoundHttpException $e) {
-            return response()->json([
-                'mensagem' => 'Erro ao salvar ou alterar a informação',
-                'status' => 503,
-            ], 503);
-        });
-        $this->renderable(function (QueryException $e) {
-            return response()->json([
-                'mensagem' => 'Não foi possível realizar a consulta',
-                'status' => 503,
-            ], 503);
         });
     }
 }

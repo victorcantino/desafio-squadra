@@ -2,18 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Uf extends BaseModel
 {
-    use HasFactory;
-
     protected $table = 'tb_uf';
 
     protected $primaryKey = 'codigoUf';
 
-    protected $fillable = ['nome', 'sigla', 'status'];
+    protected $guarded = ['codigoUf'];
 
     /**
      * Retorna os municípios relacionados
@@ -22,6 +19,6 @@ class Uf extends BaseModel
      */
     public function municipios(): HasMany
     {
-        return $this->hasMany(Municipio::class);
+        return $this->hasMany(Municipio::class, 'codigoMunicipio', 'codigoUf');
     }
 }

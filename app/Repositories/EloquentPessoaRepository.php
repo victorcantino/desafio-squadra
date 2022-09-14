@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\Erros;
 use App\Http\Requests\PessoaRequest;
 use App\Models\Endereco;
 use App\Models\Pessoa;
@@ -20,17 +21,20 @@ class EloquentPessoaRepository implements PessoaRepository
      */
     public function adicionar(PessoaRequest $request): Pessoa
     {
-        // dd($request);
-        return DB::transaction(function () use ($request) {
-            $pessoa = Pessoa::create($request->all());
-
+        DB::beginTransaction();
+        $pessoa = Pessoa::create($request->all());
+        try {
             $enderecos = $request->input('enderecos');
             foreach ($enderecos as &$endereco) {
                 $endereco['codigoPessoa'] = $pessoa->codigoPessoa;
             }
             Endereco::insert($enderecos);
-            return $pessoa;
-        });
+        } catch (Erros $th) {
+            DB::rollBack();
+            throw new Erros('Erro ao criar a pessoa: ' . $th->getMessage(), 503);
+        }
+        DB::commit();
+        return $pessoa;
     }
 
     /**
@@ -41,39 +45,31 @@ class EloquentPessoaRepository implements PessoaRepository
      */
     public function alterar(PessoaRequest $request, Pessoa $pessoa): Pessoa
     {
-        return DB::transaction(function () use ($request, $pessoa) {
-            $pessoa->fill($request->all());
-            $pessoa->save();
+        DB::beginTransaction();
+        $pessoa->fill($request->all());
+        $pessoa->save();
+        try {
             $notIn = [];
-            $enderecos = $request->input('enderecos');
-            foreach ($enderecos as &$endereco) {
-                if (isset($endereco['codigoEndereco'])) { // endereço já existe
-                    $alterado = Endereco::where('codigoEndereco', $endereco['codigoEndereco'])->first();
-                    if ($alterado !== null) {
-                        array_push($notIn, $endereco['codigoEndereco']);
-                        $alterado->nomeRua = $endereco['nomeRua'];
-                        $alterado->numero = $endereco['numero'];
-                        $alterado->complemento = $endereco['complemento'];
-                        $alterado->cep = $endereco['cep'];
-                        $alterado->save();
+            foreach ($request->input('enderecos') as $e) {
+                if (isset($e['codigoEndereco'])) { // alterar endereço
+                    $endereco = Endereco::firstWhere('codigoEndereco', $e['codigoEndereco']);
+                    if ($endereco === null) {
+                        throw new Erros('O endereço informado não existe', 503);
                     }
-                } else { // novo endereço
-                    $novo = new Endereco([$endereco]);
-                    $novo->codigoPessoa = $pessoa->codigoPessoa;
-                    $novo->codigoBairro = $endereco['codigoBairro'];
-                    $novo->nomeRua = $endereco['nomeRua'];
-                    $novo->numero = $endereco['numero'];
-                    $novo->complemento = $endereco['complemento'];
-                    $novo->cep = $endereco['cep'];
-                    $novo->save();
-                    // dd($novo);
-                    array_push($notIn, $novo->codigoEndereco);
+                    $endereco->fill($e)->save();
+                    $notIn[] = $endereco->codigoEndereco;
+                } else { // endereço novo
+                    $notIn[] = Endereco::create($e)->codigoEndereco;
                 }
             }
             Endereco::where('codigoPessoa', $pessoa->codigoPessoa)
-                ->whereNotIn('codigoEndereco', $notIn)->delete();
-
-            return $pessoa;
-        });
+                ->whereNotIn('codigoEndereco', $notIn)
+                ->delete();
+        } catch (Erros $th) {
+            DB::rollBack();
+            throw new Erros('Erro ao alterar a pessoa: ' . $th->getMessage(), 503);
+        }
+        DB::commit();
+        return $pessoa;
     }
 }

@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Endereco extends Model
+class Endereco extends BaseModel
 {
-    use HasFactory;
-
     protected $table = 'tb_endereco';
 
     protected $primaryKey = 'codigoEndereco';
 
-    protected $fillable = ['codigoPessoa', 'codigoBairro', 'nomeRua', 'numero', 'complemento', 'cep'];
+    protected $guarded = ['codigoEndereco'];
 
-    public $timestamps = false;
+    /**
+     * Get the pessoa that owns the Endereco
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pessoa(): BelongsTo
+    {
+        return $this->belongsTo(Pessoa::class, 'codigoPessoa', 'codigoEndereco');
+    }
 }

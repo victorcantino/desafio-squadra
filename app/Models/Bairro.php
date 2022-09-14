@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bairro extends BaseModel
 {
-    use HasFactory;
-
     protected $table = 'tb_bairro';
 
     protected $primaryKey = 'codigoBairro';
 
-    protected $fillable = ['codigoMunicipio', 'nome', 'status'];
+    protected $guarded = ['codigoBairro'];
 
     /**
      * Retorna o município relacionado ao bairro
@@ -23,7 +20,7 @@ class Bairro extends BaseModel
      */
     public function municipio(): BelongsTo
     {
-        return $this->belongsTo(Municipio::class);
+        return $this->belongsTo(Municipio::class, 'codigoMunicipio', 'codigoBairro');
     }
 
     /**
@@ -33,6 +30,6 @@ class Bairro extends BaseModel
      */
     public function enderecos(): HasMany
     {
-        return $this->hasMany(Endereco::class);
+        return $this->hasMany(Endereco::class, 'codigoEndereco', 'codigoBairro');
     }
 }
